@@ -1,0 +1,5 @@
+praw
+moviepy
+requests
+yt-dlp
+pillow
