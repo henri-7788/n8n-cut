@@ -1,4 +1,12 @@
-from moviepy.editor import VideoFileClip, TextClip, CompositeVideoClip, vfx
+try:
+    from moviepy.editor import VideoFileClip, TextClip, CompositeVideoClip, vfx
+except ImportError:
+    print("\n!!! FEHLER: Falsche MoviePy Version erkannt !!!")
+    print("Das Skript benötigt MoviePy 1.0.3. Du hast wahrscheinlich Version 2.0+ installiert.")
+    print("Bitte führe folgenden Befehl aus, um die korrekten Versionen zu installieren:")
+    print("pip install -r requirements.txt --force-reinstall\n")
+    raise ImportError("MoviePy 1.0.3 wird benötigt.")
+
 import os
 
 def process_video(reddit_video_path, background_video_path, title, config, output_path="output/final_video.mp4"):
