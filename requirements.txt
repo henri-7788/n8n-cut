@@ -1,6 +1,6 @@
 praw
-moviepy
+moviepy<2.0
 requests
 yt-dlp
 pillow
-decorator
+decorator<5.0
