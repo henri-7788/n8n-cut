@@ -1,5 +1,6 @@
 # Config and Secrets
 config.json
+beispiel_skript.py
 
 # Python
 __pycache__/

@@ -36,11 +36,27 @@ def main():
         return
     
     print(f"Gewähltes Video: {post.title}")
-    print(f"URL: {post.url}")
+    
+    # URL Logik verbessern um 403 Fehler zu vermeiden
+    # Wir nehmen den direkten CDN Link anstatt des Post-Links
+    download_url = post.url
+    if hasattr(post, "media") and post.media and "reddit_video" in post.media:
+        rv = post.media["reddit_video"]
+        if rv.get("dash_url"):
+            download_url = rv.get("dash_url")
+            print("Nutze DASH URL (Beste Qualität + Audio)")
+        elif rv.get("hls_url"):
+            download_url = rv.get("hls_url")
+            print("Nutze HLS URL")
+        elif rv.get("fallback_url"):
+            download_url = rv.get("fallback_url")
+            print("Nutze Fallback URL (Eventuell ohne Audio)")
+            
+    print(f"URL für Download: {download_url}")
     
     # 4. Download Video
     print("Lade Video herunter...")
-    video_path = download_video(post.url)
+    video_path = download_video(download_url)
     
     if not video_path:
         print("Download fehlgeschlagen.")
