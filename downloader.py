@@ -15,6 +15,8 @@ def download_video(post_url, output_folder="temp"):
         'merge_output_format': 'mp4',
         'quiet': True,
         'no_warnings': True,
+        # Fake User-Agent to avoid 403 Forbidden
+        'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
     }
 
     try:
