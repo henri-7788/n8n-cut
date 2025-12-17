@@ -1,0 +1,20 @@
+{
+  "reddit_client_id": "fwmir9F6QS-6ymIN37r0dQ",
+  "reddit_client_secret": "rcqXM4RnpM6qu7qUFfhj-JsTXdzFnw",
+  "reddit_user_agent": "Destiny personal use script by u/Nearby_Swan_8171T",
+  "subreddit_list": [
+    "unexpected"
+  ],
+  "min_duration_sec": 7,
+  "max_duration_sec": 65,
+  "video_margin_px": 3,
+  "video_width": 1080,
+  "video_height": 1920,
+  "allow_nsfw": false,
+  "postSort": "top",
+  "postTimeframe": "week",
+  "target_platforms": [
+    "tiktok",
+    "reels"
+  ]
+}
