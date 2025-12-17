@@ -1,6 +1,7 @@
 import praw
 import time
 import random
+from utils import check_if_seen
 
 def get_reddit_client(config):
     return praw.Reddit(
@@ -40,7 +41,12 @@ def find_video_post(reddit, config):
                 posts = subreddit.hot(limit=limit)
 
             for post in posts:
-                # Prüfe ob es ein Video ist
+                # 0. Check History
+                if check_if_seen(post.id):
+                    print(f"  Überspringe {post.id} ({post.title}) - bereits bearbeitet.")
+                    continue
+
+                # 1. Check if it's a video generic check
                 if not getattr(post, "is_video", False):
                     continue
                 

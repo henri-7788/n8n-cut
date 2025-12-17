@@ -46,11 +46,23 @@ def process_video(reddit_video_path, background_video_path, title, config, outpu
     # Prepare Reddit Clip (Center)
     # Scale to fit width with margin
     max_content_width = target_width - (2 * margin)
+    # Also considering height margin (e.g. for title)
+    title_space = 200 # Space at top for title
+    max_content_height = target_height - title_space - margin
+
+    # Resize logic: 
+    # 1. If too wide, scale down to max width
+    # 2. If too tall (after width scale), scale down to max height
     
+    # Check width first
     if reddit_clip.w > max_content_width:
         reddit_clip = reddit_clip.resize(width=max_content_width)
-    
-    # Position in center
+        
+    # Check height next (rare for landscape video but possible for mobile vertical video)
+    if reddit_clip.h > max_content_height:
+        reddit_clip = reddit_clip.resize(height=max_content_height)
+
+    # Force position to center
     reddit_clip = reddit_clip.set_position(("center", "center"))
     
     # Prepare Title
@@ -78,7 +90,8 @@ def process_video(reddit_video_path, background_video_path, title, config, outpu
         )
         # Position user mentions "top", but not covering video if possible. 
         # Ideally: Top margin.
-        txt_clip = txt_clip.set_position(("center", 150)).set_duration(duration)
+        txt_clip = txt_clip.set_position(("center", 100)).set_duration(duration) # Slightly higher
+
         
     except Exception as e:
         print(f"Warnung: TextClip konnte nicht erstellt werden (ImageMagick fehlt vielleicht?): {e}")

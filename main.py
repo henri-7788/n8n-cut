@@ -1,6 +1,6 @@
 import os
 import sys
-from utils import load_config, ensure_directories, get_random_background, cleanup_temp
+from utils import load_config, ensure_directories, get_random_background, cleanup_temp, save_to_history
 from reddit_client import get_reddit_client, find_video_post
 from downloader import download_video
 from video_editor import process_video
@@ -82,6 +82,9 @@ def main():
             config=config,
             output_path=output_path
         )
+        # SUCCESS! Save to history
+        save_to_history(post.id)
+        
     except Exception as e:
         print(f"Fehler bei der Videobearbeitung: {e}")
         # import traceback
