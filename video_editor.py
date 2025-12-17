@@ -50,17 +50,25 @@ def process_video(reddit_video_path, background_video_path, title, config, outpu
     title_space = 200 # Space at top for title
     max_content_height = target_height - title_space - margin
 
-    # Resize logic: 
-    # 1. If too wide, scale down to max width
-    # 2. If too tall (after width scale), scale down to max height
+    # Resize logic to FILL the available width (upscaling if necessary)
+    # whilst keeping aspect ratio and staying within max height.
     
-    # Check width first
-    if reddit_clip.w > max_content_width:
-        reddit_clip = reddit_clip.resize(width=max_content_width)
-        
-    # Check height next (rare for landscape video but possible for mobile vertical video)
-    if reddit_clip.h > max_content_height:
-        reddit_clip = reddit_clip.resize(height=max_content_height)
+    current_w = reddit_clip.w
+    current_h = reddit_clip.h
+    
+    # Calculate scale factors
+    width_ratio = max_content_width / current_w
+    height_ratio = max_content_height / current_h
+    
+    # Take the smaller ratio to ensure it fits both width and height constraints
+    final_scale = min(width_ratio, height_ratio)
+    
+    # Apply resize
+    print(f"  Original Video Size: {current_w}x{current_h}")
+    print(f"  Target Max Size: {max_content_width}x{max_content_height}")
+    print(f"  Scaling Factor: {final_scale:.2f}")
+    
+    reddit_clip = reddit_clip.resize(final_scale)
 
     # Force position to center
     reddit_clip = reddit_clip.set_position(("center", "center"))
